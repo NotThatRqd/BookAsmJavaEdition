@@ -55,6 +55,9 @@ public class Runner {
                 case '!' -> tape[cur] = !(tape[cur]);
                 case '@' -> tape[cur] = getInput();
                 case '#' -> display(tape[cur]);
+                case 'r' -> cur = 0;
+                case 'c' -> cDisplay(tape, cur);
+                default -> display("Invalid Token: " + it.current());
             }
 
             // move on to next char
@@ -63,11 +66,34 @@ public class Runner {
 
     }
 
+    private static void cDisplay(boolean[] tape, byte cur) {
+        int bin = 0;
+
+        // turn an array like {0, 1, 1, 0, 0, 0, 1, 1} to -> (int) 01100011
+        int toPow = (int) Math.pow(10, 7);
+        for(int i = 0; i < 8; i++) {
+            bin += boolToInt(tape[cur + i]) * toPow;
+            toPow = toPow / 10;
+        }
+
+        char character = (char) binaryToDecimal(bin);
+        display(String.valueOf(character));
+    }
+
+    // TODO: implement only one display() using generics
     private static void display(Boolean b) {
         if (Main.visualMode) {
             label.setText(label.getText() + b);
         } else {
             System.out.print(b);
+        }
+    }
+
+    private static void display(String s) {
+        if (Main.visualMode) {
+            label.setText(label.getText() + s);
+        } else {
+            System.out.print(s);
         }
     }
 
@@ -96,5 +122,25 @@ public class Runner {
             }
         }
         //return false;
+    }
+
+    private static int boolToInt(boolean b) {
+        if(b) return 1; else return 0;
+    }
+
+    private static int binaryToDecimal(int binaryNumber) {
+        // declaration of variables
+        int decimalRep = 0, temp, remainder, base = 1;
+        temp = binaryNumber;
+
+        // applying the conversion algorithm
+        while(temp > 0) {
+            // dividing the binary number and storing the rightmost digit in the remainder variable
+            remainder = temp % 10;
+            decimalRep = decimalRep + (remainder * base);
+            temp /= 10;
+            base *= 2;
+        }
+        return decimalRep;
     }
 }
