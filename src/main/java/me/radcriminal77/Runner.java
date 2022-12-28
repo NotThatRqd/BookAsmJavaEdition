@@ -42,6 +42,9 @@ public class Runner {
             frame.setVisible(true);
         }
 
+        final Display<Boolean> booleanDisplay = new Display<>(label);
+        final Display<String> stringDisplay = new Display<>(label);
+
         boolean[] tape = new boolean[64];
         Arrays.fill(tape, false);
         byte cur = 0;
@@ -54,10 +57,10 @@ public class Runner {
                 case '>' -> cur++;
                 case '!' -> tape[cur] = !(tape[cur]);
                 case '@' -> tape[cur] = getInput();
-                case '#' -> display(tape[cur]);
+                case '#' -> booleanDisplay.display(tape[cur]);
                 case 'r' -> cur = 0;
                 case 'c' -> cDisplay(tape, cur);
-                default -> display("Invalid Token: " + it.current());
+                default -> stringDisplay.display("Invalid Token: " + it.current());
             }
 
             // move on to next char
@@ -77,24 +80,7 @@ public class Runner {
         }
 
         char character = (char) binaryToDecimal(bin);
-        display(String.valueOf(character));
-    }
-
-    // TODO: implement only one display() using generics
-    private static void display(Boolean b) {
-        if (Main.visualMode) {
-            label.setText(label.getText() + b);
-        } else {
-            System.out.print(b);
-        }
-    }
-
-    private static void display(String s) {
-        if (Main.visualMode) {
-            label.setText(label.getText() + s);
-        } else {
-            System.out.print(s);
-        }
+        new Display<Character>(label).display(character);
     }
 
     private static boolean getInput() {

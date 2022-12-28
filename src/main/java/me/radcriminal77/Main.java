@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static boolean visualMode = false;
+    public static boolean visualMode = true;
 
     public static void main(String[] args) {
 
