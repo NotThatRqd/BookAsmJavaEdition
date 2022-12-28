@@ -10,7 +10,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // set visual mode here somehow
+        if (args.length > 0 && args[0].equals("false")) {
+            visualMode = false;
+        }
 
         if (visualMode) {
             JFrame frame = new JFrame();
@@ -35,10 +37,12 @@ public class Main {
             JButton button = new JButton("Run");
             button.setBounds(10, 60, 70, 25);
             button.setFocusable(false);
-            button.addActionListener(event -> {
-                Runner.run(inputField.getText());
-            });
+            button.addActionListener(event -> Runner.run(inputField.getText()));
             panel.add(button);
+
+            JLabel label1 = new JLabel("Run in command line with first argument \"false\" for non-visual mode.");
+            label1.setBounds(0, 300, 400, 25);
+            panel.add(label1);
 
             frame.setVisible(true);
         } else {
